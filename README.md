@@ -1,7 +1,7 @@
 # Krippendorrf-alpha-for-graph
 Compute Krippendorrf's alpha for graph, modified from https://github.com/grrrr/krippendorff-alpha/
 
-## Changes
+### Changes
 1. Used Networkx to instantiate graph 
 2. Added custom node/edge and graph metrics (see below)
 3. Forced a pre-computation of distance matrix to boost efficiency for computing, and store it as .npy
@@ -22,6 +22,11 @@ Compute Krippendorrf's alpha for graph, modified from https://github.com/grrrr/k
    - Strict metric: nominal metric, graph edit distance
 7. Depending on your how many graphs you have, computation of graph distance matrix can take a long time. 
 
+### Python installation
+Open your terminal, activate your preferred environment, then type in
+```
+pip install krippendorrf_graph
+```
 
 ### Node/edge Metrics
 #### Lenient metric
@@ -42,8 +47,23 @@ Compute Krippendorrf's alpha for graph, modified from https://github.com/grrrr/k
 ### Example Usage
 ###### Compute distance matrix of graphs 
 ```
+import pandas as pd
 from krippendorrf_graph import compute_alpha, compute_distance_matrix, graph_edit_distance, graph_overlap_metric, nominal_metric
 
+df = pd.DataFrame.from_dict({"annotator": [1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4],
+                             "narrative": [
+                                       ["bla, ela, pla, mla."],["bla, ela, pla, mla."],["bla, ela, pla, mla."],["bla, ela, pla, mla."],
+                                       ["bla, ela, pla, mla."],["bla, ela, pla, mla."],["bla, ela, pla, mla."],["bla, ela, pla, mla."], 
+                                       ["bla, ela, pla, mla."],["bla, ela, pla, mla."],["bla, ela, pla, mla."],["bla, ela, pla, mla."],
+                                       ["bla, ela, pla, mla."],["bla, ela, pla, mla."],["bla, ela, pla, mla."],["bla, ela, pla, mla."]
+                             ],
+                             "graph_feature": [
+                                       {("sub", "pre", "obj")},{("sub1", "pre1", "obj1"), ("sub2", "pre2", "obj2")},{("sub", "pre", "obj")},{("sub", "pre", "obj")},
+                                       {("sub", "pre", "obj")},{("sub", "pre", "obj")},{("sub", "pre", "obj")},{("sub", "pre", "obj")}, 
+                                       {("sub", "pre", "obj")},{("sub1", "pre1", "obj1"), ("sub2", "pre2", "obj2")},{("sub", "pre", "obj")},{("sub1", "pre1", "obj1"), ("sub2", "pre2", "obj2")},
+                                       {("sub", "pre", "obj")},{("sub", "pre", "obj")},{("sub", "pre", "obj")},{("sub1", "pre1", "obj1"), ("sub2", "pre2", "obj2")}
+                             ]
+                             })
 data = [
     df[df["annotator"]==1].graph_feature.to_list(),
     df[df["annotator"]==2].graph_feature.to_list(),
@@ -52,8 +72,9 @@ data = [
 ]
 
 empty_graph_indicator = "*" # indicator for missing values
-feature_column="graph_feature"
 save_path = "./lenient_distance_matrix.npy"
+feature_column="graph_feature"
+
 graph_distance_metric= node_overlap_metric
 forced = True
 
