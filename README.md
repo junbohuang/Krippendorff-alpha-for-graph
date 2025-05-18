@@ -59,9 +59,9 @@ df = pd.DataFrame.from_dict({"annotator": [1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4],
                              ],
                              "graph_feature": [
                                        {("sub", "pre", "obj")},{("sub1", "pre1", "obj1"), ("sub2", "pre2", "obj2")},{("sub", "pre", "obj")},{("sub", "pre", "obj")},
-                                       {("sub", "pre", "obj")},{("sub", "pre", "obj")},{("sub", "pre", "obj")},{("sub", "pre", "obj")}, 
+                                       *,{("sub", "pre", "obj")},{("sub", "pre", "obj")},{("sub", "pre", "obj")}, 
                                        {("sub", "pre", "obj")},{("sub1", "pre1", "obj1"), ("sub2", "pre2", "obj2")},{("sub", "pre", "obj")},{("sub1", "pre1", "obj1"), ("sub2", "pre2", "obj2")},
-                                       {("sub", "pre", "obj")},{("sub", "pre", "obj")},{("sub", "pre", "obj")},{("sub1", "pre1", "obj1"), ("sub2", "pre2", "obj2")}
+                                       *,{("sub", "pre", "obj")},{("sub", "pre", "obj")},{("sub1", "pre1", "obj1"), ("sub2", "pre2", "obj2")}
                              ]
                              })
 data = [
