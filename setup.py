@@ -10,7 +10,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='krippendorff-graph',
-    version='0.1.0',
+    version='0.1.1',
     description='A Python package for computing krippendorffs alpha for graph (modified from https://github.com/grrrr/krippendorff-alpha/blob/master/krippendorff_alpha.py)',
     url='https://github.com/junbohuang/Krippendorff-alpha-for-graph',
     author='Junbo Huang',
