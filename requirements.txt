@@ -1,5 +1,5 @@
 pandas
-sccikit-learn
+scikit-learn
 requests
 networkx
 tqdm
