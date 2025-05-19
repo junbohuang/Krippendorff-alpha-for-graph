@@ -1,5 +1,5 @@
-# Krippendorrf-alpha-for-graph
-Compute Krippendorrf's alpha for graph, modified from https://github.com/grrrr/krippendorff-alpha/
+# Krippendorff-alpha-for-graph
+Compute Krippendorff's alpha for graph, modified from https://github.com/grrrr/krippendorff-alpha/
 
 ### Changes
 1. Used Networkx to instantiate graph 
@@ -25,7 +25,7 @@ Compute Krippendorrf's alpha for graph, modified from https://github.com/grrrr/k
 ### Python installation
 Open your terminal, activate your preferred environment, then type in
 ```
-pip install krippendorrf_graph
+pip install krippendorff_graph
 ```
 
 ### Node/edge Metrics
@@ -48,7 +48,7 @@ pip install krippendorrf_graph
 ###### Compute distance matrix of graphs 
 ```
 import pandas as pd
-from krippendorrf_graph import compute_alpha, compute_distance_matrix, graph_edit_distance, graph_overlap_metric, nominal_metric
+from krippendorff_graph import compute_alpha, compute_distance_matrix, graph_edit_distance, graph_overlap_metric, nominal_metric
 
 df = pd.DataFrame.from_dict({"annotator": [1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4],
                              "narrative": [
