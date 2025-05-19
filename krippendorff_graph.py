@@ -1,3 +1,4 @@
+from itertools import combinations
 
 import numpy as np
 import networkx as nx
@@ -29,14 +30,15 @@ def graph_overlap_metric(triples_1: list[tuple], triples_2: list[tuple], graph_t
 
 def graph_edit_distance(triples_1: list[tuple], triples_2: list[tuple],
                         graph_type: Optional[
-                            Union[nx.Graph, nx.DiGraph, nx.MultiGraph, nx.MultiDiGraph]] = nx.MultiDiGraph):
+                            Union[nx.Graph, nx.DiGraph, nx.MultiGraph, nx.MultiDiGraph]] = nx.MultiDiGraph,
+                        timeout: Optional[int] = 60):
     """
     Normalized graph edit distance from networkx.
     """
     g0 = nx.empty_graph()
     g1 = instantiate_networkx_graph(triples_1, graph_type)
     g2 = instantiate_networkx_graph(triples_2, graph_type)
-    normalized_ged = nx.graph_edit_distance(g1, g2) / (nx.graph_edit_distance(g1, g0) + nx.graph_edit_distance(g2, g0))
+    normalized_ged = nx.graph_edit_distance(g1, g2, timeout=timeout) / (nx.graph_edit_distance(g1, g0, timeout=timeout) + nx.graph_edit_distance(g2, g0, timeout=timeout))
     return normalized_ged
 
 
@@ -45,7 +47,8 @@ def compute_distance_matrix(df, feature_column: str,
                             empty_graph_indicator: str = "*",
                             save_path: Optional[str] = "./distance_matrix.npy",
                             graph_type: Optional[
-                                Union[nx.Graph, nx.DiGraph, nx.MultiGraph, nx.MultiDiGraph]] = nx.MultiDiGraph):
+                                Union[nx.Graph, nx.DiGraph, nx.MultiGraph, nx.MultiDiGraph]] = nx.MultiDiGraph,
+                            timeout: Optional[int] = 60):
     """
     Compute distance matrix with custom graph distance metric from a pandas data frame object.
     A graph must be represented as a list of tuple, such as [("subject_1", "predicate_1", "object_1"), ("subject_2", "predicate_2", "object_2")]
@@ -59,18 +62,18 @@ def compute_distance_matrix(df, feature_column: str,
     :return: distance matrix as numpy array.
     """
     distance_matrix = np.zeros(shape=(len(df[feature_column]), len(df[feature_column])))
-    computed_indices = set()
-    for i, g1 in tqdm(enumerate(df[feature_column])):
-        for j, g2 in enumerate(df[feature_column]):
-            if {i, j} not in computed_indices:
-                if g1 == empty_graph_indicator or g2 == empty_graph_indicator:
-                    # ignore missing graph annotation by assign 0 distance to other graphs for faster computation by observed and expected disagreement.
-                    distance_matrix[i][j] = 0
-                else:
-                    distance_matrix[i][j] = graph_distance_metric(g1, g2, graph_type=graph_type)
-                computed_indices.update({i, j})
-            else:
-                distance_matrix[i][j] = distance_matrix[j][i]
+
+    graph_pair_indices = list(combinations(range(len(df[feature_column].to_list())), 2))
+    for (i, j) in tqdm(graph_pair_indices):
+        g1 = df[feature_column].to_list()[i]
+        g2 = df[feature_column].to_list()[j]
+        if g1 == empty_graph_indicator or g2 == empty_graph_indicator:
+            # ignore missing graph annotation by assign 0 distance to other graphs for faster computation by observed and expected disagreement.
+            distance_matrix[i][j] = 0
+        else:
+            d = graph_distance_metric(g1, g2, graph_type=graph_type, timeout=timeout)
+            distance_matrix[i][j] = d
+            distance_matrix[j][i] = d
     with open(save_path, 'wb') as f:
         np.save(f, distance_matrix)
     return distance_matrix
