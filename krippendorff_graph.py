@@ -13,15 +13,15 @@ def instantiate_networkx_graph(triples: list[tuple], graph_type=nx.MultiDiGraph)
     return G
 
 
-def nominal_metric(a, b, graph_type=None):
+def nominal_metric(a, b, graph_type=None, timeout=None):
     return a != b
 
 
-def node_overlap_metric(a, b, graph_type=None):
+def node_overlap_metric(a, b, graph_type=None, timeout=None):
     return len(a & b) == 0
 
 
-def graph_overlap_metric(triples_1: list[tuple], triples_2: list[tuple], graph_type=None):
+def graph_overlap_metric(triples_1: list[tuple], triples_2: list[tuple], graph_type=None, timeout=None):
     """
     If two graphs overlaps, distance = 0, else 1.
     """
