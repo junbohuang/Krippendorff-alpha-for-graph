@@ -28,6 +28,16 @@ def graph_overlap_metric(triples_1: list[tuple], triples_2: list[tuple], graph_t
     return len(list(set(triples_1) & set(triples_2))) == 0
 
 
+def jaccard_distance(a, b, graph_type=None, timeout=None):
+    if a == "*" or b == "*":
+        return 1
+    # compute jaccard index given two sets a and b
+    intersection = len(a.intersection(b))
+    union = len(a.union(b))
+    score = intersection / union
+    return 1-score
+
+
 def graph_edit_distance(triples_1: list[tuple], triples_2: list[tuple],
                         graph_type: Optional[
                             Union[nx.Graph, nx.DiGraph, nx.MultiGraph, nx.MultiDiGraph]] = nx.MultiDiGraph,
