@@ -10,11 +10,11 @@ requirements = ['pandas', 'scikit-learn', 'requests', 'networkx', 'tqdm', 'numpy
 
 setup(
     name='krippendorff-graph',
-    version='0.1.4',
+    version='0.2.0',
     description='A Python package for computing krippendorffs alpha for graph (modified from https://github.com/grrrr/krippendorff-alpha/blob/master/krippendorff_alpha.py)',
-    url='https://anonymous.4open.science/r/BE2B/',
-    author='anonymous author',
-    author_email='anonymous@email.com',
+    url='https://github.com/junbohuang/Krippendorff-alpha-for-graph',
+    author='Junbo Huang',
+    author_email='junbo.huang@uni-hamburg.de',
     license='Apache 2 License',
     install_requires=requirements,
     long_description=long_description,
