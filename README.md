@@ -1,6 +1,9 @@
 # Krippendorff-alpha-for-graph
 Compute Krippendorff's alpha for graph, modified from https://github.com/grrrr/krippendorff-alpha/
 
+Package URL: https://pypi.org/project/krippendorff-graph/
+
+
 ### Changes
 1. Used Networkx to instantiate graph 
 2. Added custom node/edge and graph metrics (see below)
@@ -23,6 +26,7 @@ Compute Krippendorff's alpha for graph, modified from https://github.com/grrrr/k
 7. Depending on your how many graphs you have, computation of graph distance matrix can take a long time. 
 
 ### Python installation
+
 Open your terminal, activate your preferred environment, then type in
 ```
 pip install krippendorff_graph
@@ -30,19 +34,26 @@ pip install krippendorff_graph
 
 ### Node/edge Metrics
 #### Lenient metric
-1. Node overlap metric: if two sets of nodes or edges overlap, the distance between these two sets is 0; else 1.
+1. Node/Edge Overlap Metric: if two sets of nodes or edges overlap, the distance between these two sets is 0; else 1.
+
+#### Moderate metric
+1. Node/Edge Jaccard Distance metric: it captures partial similarity by measuring the proportion of shared nodes or edges between two sets. 
 
 #### Strict metric
-1. Nominal metric: exact match of two sets of ndoes or edges.
+1. Nominal Metric: exact match of two sets of ndoes or edges.
 
 ### Graph Metrics
 #### Lenient metric
-1. Graph overlap metric: if two graphs overlap, the distance between these two sets is 0; else 1.
+1. Graph Overlap Metric: if two graphs overlap, the distance between these two sets is 0; else 1.
 
-#### Strict metric
-1. Normalized graph edit distance
+#### Moderate metric
+1. Normalized Graph Edit Distance
     - normalized by computing distance between g1 and g0 and between g2 and g0
     - g0 is an empty graph
+
+#### Strict metric
+1. Nominal Metric: exact match of two sets of triples.
+
 
 ### Example Usage
 ###### Compute distance matrix of graphs 
@@ -79,7 +90,8 @@ graph_distance_metric= node_overlap_metric
 forced = True
 
 if not Path(save_path).exists() or forced:
-    distance_matrix = compute_distance_matrix(df_task2_annotation, feature_column=feature_column, graph_distance_metric=graph_distance_metric, 
+    distance_matrix = compute_distance_matrix(df=df, 
+                                              feature_column=feature_column,    graph_distance_metric=graph_distance_metric, 
                                               empty_graph_indicator=empty_graph_indicator, save_path=save_path, graph_type=nx.Graph)
 else: 
     distance_matrix = np.load(save_path)
