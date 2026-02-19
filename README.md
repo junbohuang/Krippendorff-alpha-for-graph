@@ -1,5 +1,5 @@
-# Krippendorff-alpha-for-graph
-Compute Krippendorff's alpha for graph, modified from https://github.com/grrrr/krippendorff-alpha/
+# Krippendorff's Alpha for Graphs
+Compute Krippendorff's alpha for graphs, modified from https://github.com/grrrr/krippendorff-alpha/
 
 Package URL: https://pypi.org/project/krippendorff-graph/
 
